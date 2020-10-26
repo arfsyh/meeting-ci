@@ -134,16 +134,16 @@
                                     </div>
                                     <div class="modal-body">
                                         
-                                        <form>
+                                        <form action="<?php echo site_url('Group/marge') ?>" method="POST">
                                             <div class="form-group">
                                                 <label for="formGroupExampleInput">Group Name</label>
-                                                <input type="text" class="form-control" id="name" placeholder="Group Name">
+                                                <input type="text" class="form-control" name="name" id="name" placeholder="Group Name">
                                             </div>
                                             <div class="form-group">
                                                 <label for="formGroupExampleInput">Select to Marge</label></div>
                                             <?php foreach($group_name as $gn):?>
                                             <div class="form-group">
-                                                <label for="firstName" class="col-sm-1 control-label"><input class="form-check-input float-right" type="checkbox" value="<?= $gn['group_id']?>" id="gm"></label>
+                                                <label for="firstName" class="col-sm-1 control-label"><input class="form-check-input float-right" type="checkbox" value="<?= $gn['group_id']?>" id="gm[]" name="gm[]"></label>
                                                 <div class="col-sm-11">
                                                 <label class="form-check-label" for="defaultCheck1">
                                                         <?= $gn['group_name']?>
@@ -151,11 +151,12 @@
                                                      </div>
                                                 </div> 
                                                 <?php endforeach ?>
-                                        </form>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        
+                                        </form>
                                     </div>
                                     </div>
                                 </div>
