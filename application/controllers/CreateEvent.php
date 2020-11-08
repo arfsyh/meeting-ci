@@ -51,17 +51,17 @@ class CreateEvent extends CI_Controller {
 	{
 		
 
-
+		$KEY_FILE_LOCATION = APPPATH . 'third_party/data/credentials.json';
 		$client = new Google_Client();
 		$client->setApplicationName('Google Calendar API PHP Quickstart');
 		$client->setScopes(Google_Service_Calendar::CALENDAR);
 		$credentials = file_get_contents("./assets/data/credentials.json");
 		echo $credentials;
-		$client->setAuthConfig($credentials);
+		$client->setAuthConfig($KEY_FILE_LOCATION);
 		$client->setAccessType('offline');
 		$client->setPrompt('select_account consent');
     
-		$tokenPath = file_get_contents("./assets/data/token.json");
+		$tokenPath = APPPATH . 'third_party/data/token.json';
 		if (file_exists($tokenPath)) {
 			$accessToken = json_decode(file_get_contents($tokenPath), true);
 			$client->setAccessToken($accessToken);
@@ -79,9 +79,9 @@ class CreateEvent extends CI_Controller {
 				$_SESSION['event_group'] = 'Contoh';
 				$_SESSION['event_title'] = 'contoh ci';
 				$_SESSION['event_place'] = 'jogja';
-				$_SESSION['event_start_time'] = $_POST['event-start-time'];
-				$_SESSION['event_end_time'] = $_POST['event-end-time'];
-				$_SESSION['event_description'] = $_POST['event-description'];
+				$_SESSION['event_start_time'] = '2020-11-01T22:00:00+07:00';
+				$_SESSION['event_end_time'] = '2020-11-01T22:00:00+07:00';
+				$_SESSION['event_description'] = '';
 				
 				// Request authorization from the user.
 				//$authUrl = $client->createAuthUrl();
@@ -111,7 +111,7 @@ class CreateEvent extends CI_Controller {
 	}
 
 	public function Create(){
-		$client = $this->getClient();
+	$client = $this->getClient();
   	$service = new Google_Service_Calendar($client);
 
   	$data = array(
