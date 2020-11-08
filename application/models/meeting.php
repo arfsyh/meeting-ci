@@ -231,7 +231,25 @@ class Meeting extends CI_Model
                 WHERE mt.meeting_date='$month'");
                 
         return $query->result_array();
-    }
+	}
+	public function getMeeting($mettingId){
+		$query = $this->db->query("SELECT *
+		FROM meetings
+		WHERE meeting_id = '$mettingId'");
+		 return $query->result_array();
+	}
+	
+	public function delMett($mi){
+		$this->db->query("DELETE
+			FROM meetings
+			WHERE meeting_id=$mi");
+	
+	}
+	public function DeleteOldAtt($mi){
+		$this->db->query("DELETE FROM meeting_attendance
+			WHERE meeting_id='$mi'");
+	  }
+	  
 
 }
 ?>

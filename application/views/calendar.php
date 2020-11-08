@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                        <button type="submit" name="submit" id="submit" class="btn btn-primary">Marge</button>
                                         
                                         </form>
                                     </div>
@@ -193,8 +193,17 @@
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 selectable: false,
-                selectHelper: false,
+                selectHelper: true,
                 events: JSON.parse(get_data)
+            });
+            $('#submit').click(function() {
+                checked = $("input[type=checkbox]:checked").length;
+
+                if(!checked) {
+                    alert("You must check at least one checkbox.");
+                    return false;
+                }
+
             });
         });
 

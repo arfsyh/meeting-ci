@@ -111,36 +111,72 @@ class CreateEvent extends CI_Controller {
 	}
 
 	public function Create(){
-	$client = $this->getClient();
-  	$service = new Google_Service_Calendar($client);
+		
+		$groupID = $this->input->post('event-group');
+		$event_title = $this->input->post('event-title');
+		$place = $this->input->post('event-place');
+		$other = $this->input->post('other');
+		if($place==""){
+		  $event_place=$other;
+		}else{
+		  $event_place=$place;
+		}
+		$event_start_time = $this->input->post('event-start-time');
+		$event_end_time = $this->input->post('event-end-time');
+		$event_description = $this->input->post('event-description');
+	  
+		$pisah1  = explode('/',$event_start_time);
+		$larik1 = array($pisah1[0],$pisah1[1],$pisah1[2]);
+		$satukan1 = implode('-',$larik1);
+	  
+		$pisah2 = explode('/',$event_end_time);
+		$larik2 = array($pisah2[0],$pisah2[1],$pisah2[2]);
+		$satukan2 = implode('-',$larik2);
+		$eventStartTime = str_replace(" ", "T", $satukan1).":00+07:00";
+		$eventEndTime = str_replace(" ", "T", $satukan2).":00+07:00";
+		$meetingDate = substr($event_start_time, 0, 10);
+		$meetingStart = substr($event_start_time, 11, 5).":00";
+		$meetingEnd = substr($event_end_time, 11, 5).":00";
+		$email = $this->input->post('member');
 
-  	$data = array(
-    'summary' => 'contoh',
-    'location' => 'jogja',
-    'sendNotifications' => TRUE,
-    'sendUpdates' => TRUE,
-    'description' => '',
-    'start' => array(
-      'dateTime' => '2020-11-01T22:00:00+07:00',
-      'timeZone' => 'Asia/Jakarta',
-    ),
-    'end' => array(
-      'dateTime' => '2020-11-01T22:00:00+07:00',
-      'timeZone' => 'Asia/Jakarta',
-    ),
-    'attendees' => 'arfyan.vira@gmail.com',
-    'reminders' => array(
-      'useDefault' => FALSE,
-      'overrides' => array(
-        array('method' => 'email', 'minutes' => 24 * 60),
-        array('method' => 'popup', 'minutes' => 10),
-      ),
-    ),
-  );
 
-  	$event = new Google_Service_Calendar_Event($data);
-	$calendarId = 'primary';
-	$event = $service->events->insert($calendarId, $event);
+
+			$client = $this->getClient();
+			$service = new Google_Service_Calendar($client);
+
+			$data = array(
+				'summary' => $event_title,
+				'location' => $event_place,
+				'sendNotifications' => TRUE,
+				'sendUpdates' => TRUE,
+				'description' => $event_description,
+				'start' => array(
+				  'dateTime' => $eventStartTime,
+				  'timeZone' => 'Asia/Jakarta',
+				),
+				'end' => array(
+				  'dateTime' => $eventEndTime,
+				  'timeZone' => 'Asia/Jakarta',
+				),
+				'attendees' => $this->database->getAllEmailByGroup($groupID, $email),
+				'reminders' => array(
+				  'useDefault' => FALSE,
+				  'overrides' => array(
+					array('method' => 'email', 'minutes' => 24 * 60),
+					array('method' => 'popup', 'minutes' => 10),
+				  ),
+				),
+			  );
+
+			$event = new Google_Service_Calendar_Event($data);
+			$calendarId = 'primary';
+			$event = $service->events->insert($calendarId, $event);
+	}
+
+	
+
+	public function aku(){
+
 	}
 
 }

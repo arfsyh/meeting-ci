@@ -12,7 +12,7 @@
         <article class="card-group-item>">
             <div class="card-body">
 				<label class="col-sm-12">
-				  <span class="form-check-label"><a href="<?php echo site_url('CreateEvent');?>" class="btn btn-success  col-sm-12"> Create Event</a></span>
+				  <span class="form-check-label"><a href="<?php echo site_url('Coba');?>" class="btn btn-success  col-sm-12"> Create Event</a></span>
 				</label>
             </div>
         </article>
@@ -21,7 +21,7 @@
             <div class="filter-content">
                 <div class="list-group list-group-flush"><?php if($jum==0){ ?>
                 <a class="list-group-item">No Meeting Today</a><?php }else{ foreach($meeting_now as $gn){?>
-                    <a class="list-group-item"><?= $gn['meeting_name']?></a>
+                    <a href="<?php echo site_url('Event/id/'.$gn['meeting_id']);?>" class="list-group-item"><?= $gn['meeting_name']?></a>
 
                 <?php  } }?>
                 </div>
@@ -32,7 +32,7 @@
             <div class="filter-content">
             <div class="list-group list-group-flush"><?php if($jumweek==0){ ?>
                 <a class="list-group-item">No Meeting This Week</a><?php }else{ foreach($meeting_week as $gn){?>
-                    <a class="list-group-item"><?= $gn['meeting_name']?></a>
+                    <a  href="<?php echo site_url('Event/id/'.$gn['meeting_id']);?>" class="list-group-item"><?= $gn['meeting_name']?></a>
 
                 <?php  } }?>
                 </div>

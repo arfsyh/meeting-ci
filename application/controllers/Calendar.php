@@ -46,6 +46,7 @@ class Calendar extends CI_Controller {
 			$eventStartTime =$val['meeting_date']."T".$val['meeting_start'];
 			$eventEndTime =$val['meeting_date']."T".$val['meeting_end'];
 			$calendar[] = array(
+							'url'	=> 'Event/id/'.$val['meeting_id'],
 							'title' => $val['meeting_name'],
 							'start' => $eventStartTime,
 							'end' 	=> $eventEndTime,

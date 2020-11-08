@@ -7,6 +7,17 @@ class Database extends CI_Model{
 	public function getAllGroup(){
         return $this->db->get('meeting_groups')->result_array();
 	}
+	public function getAllGroupMember(){
+        return $this->db->get('group_members')->result_array();
+	}
+
+	public function getLast(){
+		$this->db->order_by('group_id','DESC');
+		$this->db->limit(1);
+		$query = $this->db->get('meeting_groups');
+		return $query->result_array();
+		
+	}
 	public function getAllMeeting(){
 		return $this->db->get('meetings')->result_array();
 	}
@@ -34,6 +45,12 @@ class Database extends CI_Model{
 		$query = $this->db->query("INSERT INTO meetings (group_id, meeting_name, meeting_date, meeting_start, meeting_end, meeting_place) 
 		VALUES ($groupID, '$meetingName', '$meetingDate', '$meetingStart','$meetingEnd', '$meetingPlace')");
 			return $query->result_array();
+	}
+	public function getGroupbyID($groupID){
+		$query = $this->db->query("SELECT * 	
+		FROM  meeting_groups 
+		WHERE group_id=$groupID");
+		return $query->result_array();
 	}
 	public function getMeetingbyGroupID($groupID){
 		$query = $this->db->query("SELECT mg.group_name, mt.meeting_name, mt.meeting_date, mt.meeting_time, mt.meeting_place 	
@@ -142,7 +159,40 @@ class Database extends CI_Model{
 		SET status 			= 'Hadir',
 			  attendance_time	= '$attendanceTime'
 		WHERE meeting_id = '$meetingID' AND member_id = '$memberID'");
-		return $query;
+		return $query->result_array();
+	}
+	public function getAttandance($groupID){
+		$query = $this->db->query("SELECT members.member_name,members.member_email, members.member_id
+				  FROM meeting_attendance JOIN members JOIN meetings
+				  ON meeting_attendance.member_name=members.member_name 
+				  AND meeting_attendance.meeting_id=meetings.meeting_id
+				  WHERE meeting_attendance.meeting_id=$groupID");
+				  return $query->result_array();
+	}
+	public function getmemberID($memberName,$memberEmail){
+		$query = $this->db->query("SELECT member_id
+									FROM members
+									WHERE member_name='$memberName'
+									AND member_email='$memberEmail' LIMIT 1");
+		return $query->result_array();
+	}
+
+	public function getmemberByNameAndEmail($memberName,$memberEmail){
+		$query = $this->db->query("SELECT member_email
+									FROM members
+									WHERE member_name='$memberName'
+									AND member_email='$memberEmail'");
+		return $query->result_array();
+
+		
+	}
+	
+	public function getmembergroupById($id,$gid){
+		$query = $this->db->query("SELECT *
+									FROM group_members
+									WHERE member_id='$id'
+									AND group_id='$gid'");
+		return $query->result_array();
 	}
 
 }
